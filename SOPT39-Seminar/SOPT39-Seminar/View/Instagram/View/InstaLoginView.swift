@@ -10,6 +10,7 @@ import SwiftUI
 struct InstaLoginView: View {
     @State private var email: String = ""
     @State private var password: String = ""
+    @State private var isLoading: Bool = false
     private var isEnabled: Bool { !email.isEmpty && !password.isEmpty }
     
     var body: some View {
@@ -63,17 +64,30 @@ struct InstaLoginView: View {
             .padding(.top, 12)
             
             Button {
-                // login
+                isLoading = true
+                Task {
+                    try? await Task.sleep(for: .seconds(2))
+                    isLoading = false
+                }
             } label: {
-                Text("로그인하기")
-                    .font(.system(size: 14, weight: .semibold))
-                    .foregroundStyle(.white)
-                    .frame(height: 44)
-                    .frame(maxWidth: .infinity)
-                    .background(isEnabled ? .primaryBlue : .gray200)
-                    .clipShape(
-                        RoundedRectangle(cornerRadius: 5)
-                    )
+                Group {
+                    if isLoading {
+                        ProgressView()
+                            .progressViewStyle(.circular)
+                            .tint(.white)
+                            .controlSize(.regular)
+                    } else {
+                        Text("로그인하기")
+                            .font(.system(size: 14, weight: .semibold))
+                            .foregroundStyle(.white)
+                    }
+                }
+                .frame(height: 44)
+                .frame(maxWidth: .infinity)
+                .background(isEnabled ? .primaryBlue : .gray200)
+                .clipShape(
+                    RoundedRectangle(cornerRadius: 5)
+                )
             }
             .disabled(!isEnabled)
             .padding(.horizontal, 16)
