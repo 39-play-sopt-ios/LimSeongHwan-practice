@@ -10,6 +10,7 @@ import SwiftUI
 struct InstaLoginView: View {
     @State private var email: String = ""
     @State private var password: String = ""
+    private var isEnabled: Bool { !email.isEmpty && !password.isEmpty }
     
     var body: some View {
         VStack(alignment: .center, spacing: 0) {
@@ -26,6 +27,7 @@ struct InstaLoginView: View {
             .keyboardType(.emailAddress)
             .textInputAutocapitalization(.never)
             .autocorrectionDisabled()
+            .ignoresSafeArea(.keyboard, edges: .bottom)
             .padding(.horizontal, 15)
             .frame(height: 44)
             .background(.gray100)
@@ -48,6 +50,7 @@ struct InstaLoginView: View {
             .textContentType(.password)
             .textInputAutocapitalization(.never)
             .autocorrectionDisabled()
+            .ignoresSafeArea(.keyboard, edges: .bottom)
             .padding(.horizontal, 15)
             .frame(height: 44)
             .background(.gray100)
@@ -67,11 +70,12 @@ struct InstaLoginView: View {
                     .foregroundStyle(.white)
                     .frame(height: 44)
                     .frame(maxWidth: .infinity)
-                    .background(.primaryBlue)
+                    .background(isEnabled ? .primaryBlue : .gray200)
                     .clipShape(
                         RoundedRectangle(cornerRadius: 5)
                     )
             }
+            .disabled(!isEnabled)
             .padding(.horizontal, 16)
             .padding(.top, 63)
             Spacer()

@@ -11,9 +11,14 @@ struct InstaProfileView: View {
     var body: some View {
         VStack(alignment: .center, spacing: 0) {
             Image(.logo)
+                .accessibilityLabel("Instagram")
                 .padding(.top, 193)
             VStack(spacing: 13) {
                 Image(.takho)
+                    .resizable()
+                    .scaledToFill()
+                    .frame(width: 85, height: 85)
+                    .clipShape(Circle())
                     .padding(.top, 65)
                 Text("moamoa")
                     .foregroundStyle(.instaBlack)
