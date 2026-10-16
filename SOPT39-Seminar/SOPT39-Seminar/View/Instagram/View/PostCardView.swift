@@ -8,11 +8,20 @@
 import SwiftUI
 
 struct PostCardView: View {
+    @Binding var isLiked: Bool
+    let profileImage: Image
+    let username: String
+    let location: String
+    let postImage: Image
+    let likesText: String
+    let caption: String
+    let timeText: String
+    
     var body: some View {
         VStack(alignment: .leading, spacing: 0) {
-            PostProfileHeaderView()
+            PostProfileHeaderView(username: username, location: location, profileImage: profileImage)
             
-            postImage
+            feedImage
             actionIcons
             postInformation
         }
@@ -20,8 +29,8 @@ struct PostCardView: View {
         .foregroundStyle(.black)
     }
     
-    private var postImage: some View {
-        Image(.instapost)
+    private var feedImage: some View {
+        postImage
             .resizable()
             .scaledToFill()
             .frame(maxWidth: .infinity)
@@ -40,7 +49,11 @@ struct PostCardView: View {
     
     private var actionIcons: some View {
         HStack(spacing: 18) {
-            Image(.like)
+            Button {
+                isLiked.toggle()
+            } label: {
+                Image(isLiked ? "like-fill" : "like")
+            }
             Image(.comment)
             Image(.messanger)
             
@@ -56,25 +69,25 @@ struct PostCardView: View {
     private var postInformation: some View {
         VStack(alignment: .leading, spacing: 8) {
             HStack(spacing: 6) {
-                Image(.takho)
+                profileImage
                     .resizable()
                     .scaledToFill()
                     .frame(width: 20, height: 20)
                     .clipShape(Circle())
                 
-                Text("모아요님 외 7,777명이 좋아합니다")
+                Text("\(likesText)")
                     .font(.system(size: 14))
             }
             
             HStack(spacing: 6) {
-                Text("이상엽")
+                Text("\(username)")
                     .font(.system(size: 14, weight: .semibold))
-                Text("벌써 2차 세미나라니 정말 힘들어여")
+                Text("\(caption)")
                     .font(.system(size: 14))
                     .fixedSize(horizontal: false, vertical: true)
             }
             
-            Text("1시간전")
+            Text("\(timeText)")
                 .font(.system(size: 12))
                 .foregroundStyle(.secondary)
         }
@@ -83,6 +96,7 @@ struct PostCardView: View {
     }
 }
 
-#Preview {
-    PostCardView()
-}
+//#Preview {
+//    @Previewable @State var isLiked: Bool = false
+//    PostCardView(isLiked: $isLiked)
+//}

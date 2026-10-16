@@ -8,19 +8,22 @@
 import SwiftUI
 
 struct PostProfileHeaderView: View {
+    let username: String
+    let location: String
+    let profileImage: Image
     var body: some View {
         HStack(spacing: 10) {
-            Image(.takho)
+            profileImage
                 .resizable()
                 .scaledToFill()
                 .frame(width: 36, height: 36)
                 .clipShape(Circle())
             
             VStack(alignment: .leading, spacing: 2) {
-                Text("이상엽")
+                Text("\(username)")
                     .font(.system(size: 14, weight: .semibold))
                 
-                Text("서울 대한민국")
+                Text("\(location)")
                     .font(.system(size: 12))
             }
             
@@ -33,6 +36,6 @@ struct PostProfileHeaderView: View {
     }
 }
 
-#Preview {
-    PostProfileHeaderView()
-}
+//#Preview {
+//    PostProfileHeaderView()
+//}
