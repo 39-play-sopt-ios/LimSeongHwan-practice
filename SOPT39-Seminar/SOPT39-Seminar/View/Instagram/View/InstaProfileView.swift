@@ -8,6 +8,8 @@
 import SwiftUI
 
 struct InstaProfileView: View {
+    let instaEmail: String
+    
     var body: some View {
         VStack(alignment: .center, spacing: 0) {
             Image(.logo)
@@ -20,7 +22,7 @@ struct InstaProfileView: View {
                     .frame(width: 85, height: 85)
                     .clipShape(Circle())
                     .padding(.top, 65)
-                Text("moamoa")
+                Text("\(instaEmail)")
                     .foregroundStyle(.instaBlack)
             }
             Button {
@@ -63,8 +65,4 @@ struct InstaProfileView: View {
         }
         .frame(maxWidth: .infinity, maxHeight: .infinity)
     }
-}
-
-#Preview {
-    InstaProfileView()
 }
