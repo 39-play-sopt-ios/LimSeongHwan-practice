@@ -21,7 +21,7 @@ struct PostSignUpView: View {
                 
                 TextField("이름을 입력해주세요", text: $name)
             }
-            .font(.custom("Pretendard-Medium", size: 18))
+            .typography(.m18)
             .textInputAutocapitalization(.never)
             .autocorrectionDisabled()
             .padding(.horizontal, 16)
@@ -32,9 +32,25 @@ struct PostSignUpView: View {
             }
             
             Button {
+                Task {
+                    await signupButtonDidTap()
+                }
             } label: {
                 Text(isLoading ? "인증 코드 발급중" : "코드발급")
-                    .font(.custom("Pretendard-SemiBold", size: 14))
+                    .typography(.sb14)
+                    .foregroundStyle(.white)
+                    .frame(maxWidth: .infinity)
+                    .frame(height: 49)
+                    .background(Color(.black), in: RoundedRectangle(cornerRadius: 12))
+                
+            }
+            .disabled(isLoading)
+            .padding(.top, 8)
+            
+            Button {
+            } label: {
+                Text("게시글 이동")
+                    .typography(.sb14)
                     .foregroundStyle(.white)
                     .frame(maxWidth: .infinity)
                     .frame(height: 49)
@@ -49,9 +65,9 @@ struct PostSignUpView: View {
             if !authorizationCode.isEmpty {
                 VStack(alignment: .leading, spacing: 8) {
                     Text("발급받은 인증 코드")
-                        .font(.custom("Pretendard-SemiBold", size: 14))
+                        .typography(.sb14)
                     Text(authorizationCode)
-                        .font(.custom("Pretendard-Bold", size: 28))
+                        .typography(.b28)
                         .textSelection(.enabled)
                 }
                 .frame(maxWidth: .infinity, alignment: .leading)
