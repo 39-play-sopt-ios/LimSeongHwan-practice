@@ -7,22 +7,24 @@
 
 import SwiftUI
 
-/// Figma PLAY-iOS 과제 > Foundations / Typography
-/// 모든 스타일: Pretendard, 행간 120%, 자간 -1%
 enum Typography {
     case b28
     case m18
+    case m16
     case sb16
     case m14
     case sb14
+    case m12
 
     var size: CGFloat {
         switch self {
         case .b28: 28
         case .m18: 18
+        case .m16: 16
         case .sb16: 16
         case .m14: 14
         case .sb14: 14
+        case .m12: 12
         }
     }
 
@@ -30,9 +32,11 @@ enum Typography {
         switch self {
         case .b28: .bold
         case .m18: .medium
+        case .m16: .medium
         case .sb16: .semibold
         case .m14: .medium
         case .sb14: .semibold
+        case .m12: .medium
         }
     }
 
@@ -40,9 +44,11 @@ enum Typography {
         switch self {
         case .b28: 120
         case .m18: 120
+        case .m16: 120
         case .sb16: 120
         case .m14: 120
         case .sb14: 120
+        case .m12: 120
         }
     }
 
@@ -50,9 +56,11 @@ enum Typography {
         switch self {
         case .b28: -1
         case .m18: -1
+        case .m16: -1
         case .sb16: -1
         case .m14: -1
         case .sb14: -1
+        case .m12: -1
         }
     }
 
