@@ -8,18 +8,14 @@
 import SwiftUI
 
 struct PostSignUpView: View {
-    @State private var part = ""
-    @State private var name = ""
-    @State private var isLoading: Bool = false
-    @State private var authorizationCode: String = ""
-    @State private var errorMessage: String = ""
+    @State private var viewModel = PostSignUpViewModel()
     
     var body: some View {
         VStack(alignment: .center, spacing: 20) {
             Group {
-                TextField("web / ios / android", text: $part)
+                TextField("web / ios / android", text: $viewModel.part)
                 
-                TextField("이름을 입력해주세요", text: $name)
+                TextField("이름을 입력해주세요", text: $viewModel.name)
             }
             .typography(.m18)
             .textInputAutocapitalization(.never)
@@ -33,10 +29,10 @@ struct PostSignUpView: View {
             
             Button {
                 Task {
-                    await signupButtonDidTap()
+                    await viewModel.signup()
                 }
             } label: {
-                Text(isLoading ? "인증 코드 발급중" : "코드발급")
+                Text(viewModel.isLoading ? "인증 코드 발급중" : "코드발급")
                     .typography(.sb14)
                     .foregroundStyle(.white)
                     .frame(maxWidth: .infinity)
@@ -44,7 +40,7 @@ struct PostSignUpView: View {
                     .background(Color(.black), in: RoundedRectangle(cornerRadius: 12))
                 
             }
-            .disabled(isLoading)
+            .disabled(viewModel.isLoading)
             .padding(.top, 8)
             
             NavigationLink {
@@ -58,16 +54,16 @@ struct PostSignUpView: View {
                     .background(Color(.black), in: RoundedRectangle(cornerRadius: 12))
                 
             }
-            .disabled(isLoading)
+            .disabled(viewModel.isLoading)
             .padding(.top, 8)
             
             Spacer()
             
-            if !authorizationCode.isEmpty {
+            if !viewModel.authorizationCode.isEmpty {
                 VStack(alignment: .leading, spacing: 8) {
                     Text("발급받은 인증 코드")
                         .typography(.sb14)
-                    Text(authorizationCode)
+                    Text(viewModel.authorizationCode)
                         .typography(.b28)
                         .textSelection(.enabled)
                 }
@@ -75,8 +71,8 @@ struct PostSignUpView: View {
                 .padding(.bottom, 24)
             }
             
-            if !errorMessage.isEmpty {
-                Text(errorMessage)
+            if !viewModel.errorMessage.isEmpty {
+                Text(viewModel.errorMessage)
                     .foregroundStyle(.red)
                     .padding(.bottom, 24)
             }
@@ -85,32 +81,6 @@ struct PostSignUpView: View {
         .padding(.top, 88)
         .background(.white)
         .preferredColorScheme(.light)
-    }
-    
-    private func signupButtonDidTap() async {
-        guard !isLoading else { return }
-        
-        isLoading = true
-        authorizationCode = ""
-        errorMessage = ""
-        defer { isLoading = false }
-        
-        do {
-            let response = try await SignupService.shared.postSignup(part: part)
-            try Task.checkCancellation()
-            
-            guard let code = response.data?.authorizationCode else {
-                throw NetworkError.responseError
-            }
-            authorizationCode = code
-            KeychainManager.shared.save(code, for: .authorizationCode)
-            KeychainManager.shared.save(name, for: .nickname)
-        } catch is CancellationError {
-            // 취소 에렁
-        } catch {
-            errorMessage = error.localizedDescription
-        }
-        
     }
 }
 
