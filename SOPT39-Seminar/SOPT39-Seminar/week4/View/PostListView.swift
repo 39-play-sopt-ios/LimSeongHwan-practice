@@ -46,6 +46,9 @@ struct PostListView: View {
         }
         .sheet(isPresented: $isPostSheetPresented) {
             NetworkPostBottomSheet(title: $newTitle, content: $newContent) {
+                Task {
+                    await createPost()
+                }
             }
         }
         .task {
@@ -61,6 +64,33 @@ struct PostListView: View {
             posts = response.posts
         } catch {
             errorMessage = error.localizedDescription
+        }
+    }
+
+    private func createPost() async {
+        errorMessage = ""
+
+        guard let author = KeychainManager.shared.read(for: .nickname), !author.isEmpty else {
+            errorMessage = "닉네임이 없어요. 인증 코드를 먼저 발급해주세요."
+            isPostSheetPresented = false
+            return
+        }
+
+        do {
+            _ = try await PostCreateService.shared.postCreatePost(
+                title: newTitle,
+                content: newContent,
+                author: author
+            )
+
+            newTitle = ""
+            newContent = ""
+            isPostSheetPresented = false
+
+            await fetchPostList()
+        } catch {
+            errorMessage = error.localizedDescription
+            isPostSheetPresented = false
         }
     }
 
