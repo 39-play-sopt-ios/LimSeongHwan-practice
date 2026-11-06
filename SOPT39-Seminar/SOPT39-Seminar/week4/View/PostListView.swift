@@ -10,6 +10,9 @@ import SwiftUI
 struct PostListView: View {
     @State private var keyword = ""
     @State private var posts: [PostDTO] = PostListResponseDTO.dummy.posts
+    @State private var isPostSheetPresented = false
+    @State private var newTitle = ""
+    @State private var newContent = ""
 
     var body: some View {
         VStack(spacing: 0) {
@@ -22,9 +25,14 @@ struct PostListView: View {
         .background(Color(.networkWhite))
         .overlay(alignment: .bottomTrailing) {
             NetworkFloatingButton {
+                isPostSheetPresented = true
             }
             .padding(.trailing, 16)
             .padding(.bottom, 10)
+        }
+        .sheet(isPresented: $isPostSheetPresented) {
+            NetworkPostBottomSheet(title: $newTitle, content: $newContent) {
+            }
         }
     }
 
