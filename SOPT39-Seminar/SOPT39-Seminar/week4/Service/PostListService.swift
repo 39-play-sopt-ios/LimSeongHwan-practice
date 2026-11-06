@@ -53,7 +53,10 @@ final class PostListService {
                 BaseResponseDTO<PostListResponseDTO>.self,
                 from: data
             )
-            return baseResponse.data
+            guard let postList = baseResponse.data else {
+                throw NetworkError.responseDecodingError
+            }
+            return postList
         } catch {
             throw NetworkError.responseDecodingError
         }

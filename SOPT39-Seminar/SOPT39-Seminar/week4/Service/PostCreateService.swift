@@ -58,7 +58,10 @@ final class PostCreateService {
                 BaseResponseDTO<PostDTO>.self,
                 from: data
             )
-            return baseResponse.data
+            guard let post = baseResponse.data else {
+                throw NetworkError.responseDecodingError
+            }
+            return post
         } catch {
             throw NetworkError.responseDecodingError
         }

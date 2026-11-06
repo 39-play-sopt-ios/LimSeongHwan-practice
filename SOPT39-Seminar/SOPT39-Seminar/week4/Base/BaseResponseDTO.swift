@@ -11,5 +11,5 @@ struct BaseResponseDTO<T: Decodable>: Decodable {
     let isSuccess: Bool
     let code: String
     let message: String
-    let data: T
+    let data: T?
 }
