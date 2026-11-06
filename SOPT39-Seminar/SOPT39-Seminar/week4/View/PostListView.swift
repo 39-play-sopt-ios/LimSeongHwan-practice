@@ -13,6 +13,7 @@ struct PostListView: View {
     @State private var isPostSheetPresented = false
     @State private var newTitle = ""
     @State private var newContent = ""
+    @State private var selectedPost: PostDTO?
 
     var body: some View {
         VStack(spacing: 0) {
@@ -30,6 +31,11 @@ struct PostListView: View {
             .padding(.trailing, 16)
             .padding(.bottom, 10)
         }
+        .overlay {
+            if selectedPost != nil {
+                deleteModal
+            }
+        }
         .sheet(isPresented: $isPostSheetPresented) {
             NetworkPostBottomSheet(title: $newTitle, content: $newContent) {
             }
@@ -46,12 +52,27 @@ struct PostListView: View {
                         title: post.title,
                         content: post.content
                     )
+                    .onLongPressGesture {
+                        selectedPost = post
+                    }
                 }
             }
             .padding(.horizontal, 16)
             .padding(.bottom, 90)
         }
         .scrollIndicators(.hidden)
+    }
+
+    private var deleteModal: some View {
+        ZStack {
+            Color.black.opacity(0.4)
+                .ignoresSafeArea()
+
+            NetworkPostModal(
+                onCancel: { selectedPost = nil },
+                onDelete: {}
+            )
+        }
     }
 }
 
