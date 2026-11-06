@@ -9,7 +9,8 @@ import SwiftUI
 
 struct PostListView: View {
     @State private var keyword = ""
-    @State private var posts: [PostDTO] = PostListResponseDTO.dummy.posts
+    @State private var posts: [PostDTO] = []
+    @State private var errorMessage = ""
     @State private var isPostSheetPresented = false
     @State private var newTitle = ""
     @State private var newContent = ""
@@ -20,6 +21,13 @@ struct PostListView: View {
             NetworkSearchTextField(text: $keyword)
                 .padding(.horizontal, 16)
                 .padding(.vertical, 12)
+
+            if !errorMessage.isEmpty {
+                Text(errorMessage)
+                    .typography(.m14)
+                    .foregroundStyle(Color(.networkRed))
+                    .padding(.bottom, 12)
+            }
 
             postList
         }
@@ -39,6 +47,20 @@ struct PostListView: View {
         .sheet(isPresented: $isPostSheetPresented) {
             NetworkPostBottomSheet(title: $newTitle, content: $newContent) {
             }
+        }
+        .task {
+            await fetchPostList()
+        }
+    }
+
+    private func fetchPostList() async {
+        errorMessage = ""
+
+        do {
+            let response = try await PostService.shared.getPostList()
+            posts = response.posts
+        } catch {
+            errorMessage = error.localizedDescription
         }
     }
 
