@@ -11,7 +11,9 @@ import SwiftUI
 struct SOPT39_SeminarApp: App {
     var body: some Scene {
         WindowGroup {
-            HomeView()
+            NavigationStack {
+                PostSignUpView()
+            }
         }
     }
 }

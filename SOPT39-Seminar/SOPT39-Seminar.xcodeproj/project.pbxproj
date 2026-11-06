@@ -10,9 +10,22 @@
 		CA94DC9E3070C61F004FB8C5 /* SOPT39-Seminar.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "SOPT39-Seminar.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
 
+/* Begin PBXFileSystemSynchronizedBuildFileExceptionSet section */
+		CA9738943095CFDB0005D645 /* Exceptions for "SOPT39-Seminar" folder in "SOPT39-Seminar" target */ = {
+			isa = PBXFileSystemSynchronizedBuildFileExceptionSet;
+			membershipExceptions = (
+				App/Info.plist,
+			);
+			target = CA94DC9D3070C61F004FB8C5 /* SOPT39-Seminar */;
+		};
+/* End PBXFileSystemSynchronizedBuildFileExceptionSet section */
+
 /* Begin PBXFileSystemSynchronizedRootGroup section */
 		CA94DCA03070C61F004FB8C5 /* SOPT39-Seminar */ = {
 			isa = PBXFileSystemSynchronizedRootGroup;
+			exceptions = (
+				CA9738943095CFDB0005D645 /* Exceptions for "SOPT39-Seminar" folder in "SOPT39-Seminar" target */,
+			);
 			path = "SOPT39-Seminar";
 			sourceTree = "<group>";
 		};
@@ -117,6 +130,8 @@
 /* Begin XCBuildConfiguration section */
 		CA94DCA73070C620004FB8C5 /* Debug configuration for PBXProject "SOPT39-Seminar" */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReferenceAnchor = CA94DCA03070C61F004FB8C5 /* SOPT39-Seminar */;
+			baseConfigurationReferenceRelativePath = App/Config.xcconfig;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
 				ASSETCATALOG_COMPILER_GENERATE_SWIFT_ASSET_SYMBOL_EXTENSIONS = YES;
@@ -181,6 +196,8 @@
 		};
 		CA94DCA83070C620004FB8C5 /* Release configuration for PBXProject "SOPT39-Seminar" */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReferenceAnchor = CA94DCA03070C61F004FB8C5 /* SOPT39-Seminar */;
+			baseConfigurationReferenceRelativePath = App/Config.xcconfig;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
 				ASSETCATALOG_COMPILER_GENERATE_SWIFT_ASSET_SYMBOL_EXTENSIONS = YES;
@@ -238,6 +255,8 @@
 		};
 		CA94DCAA3070C620004FB8C5 /* Debug configuration for PBXNativeTarget "SOPT39-Seminar" */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReferenceAnchor = CA94DCA03070C61F004FB8C5 /* SOPT39-Seminar */;
+			baseConfigurationReferenceRelativePath = App/Config.xcconfig;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
@@ -246,6 +265,7 @@
 				DEVELOPMENT_TEAM = XRZBKU6SF9;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_FILE = "SOPT39-Seminar/App/Info.plist";
 				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
@@ -271,6 +291,8 @@
 		};
 		CA94DCAB3070C620004FB8C5 /* Release configuration for PBXNativeTarget "SOPT39-Seminar" */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReferenceAnchor = CA94DCA03070C61F004FB8C5 /* SOPT39-Seminar */;
+			baseConfigurationReferenceRelativePath = App/Config.xcconfig;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
@@ -279,6 +301,7 @@
 				DEVELOPMENT_TEAM = XRZBKU6SF9;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_FILE = "SOPT39-Seminar/App/Info.plist";
 				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
