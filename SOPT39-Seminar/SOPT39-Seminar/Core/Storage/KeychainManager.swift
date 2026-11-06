@@ -10,6 +10,7 @@ import Security
 
 enum KeychainKey: String {
     case authorizationCode
+    case nickname
 }
 
 final class KeychainManager {
@@ -17,32 +18,46 @@ final class KeychainManager {
 
     private init() {}
 
-    private var query: [String: Any] {
+    private func query(for key: KeychainKey) -> [String: Any] {
         [
             kSecClass as String: kSecClassGenericPassword,
             kSecAttrService as String: "com.sopt.keychain.practice",
-            kSecAttrAccount as String: KeychainKey.authorizationCode.rawValue
+            kSecAttrAccount as String: key.rawValue
         ]
     }
 
-    func saveAuthorizationCode(_ code: String) {
-        var addQuery = query
-        addQuery[kSecValueData as String] = Data(code.utf8)
+    func save(_ value: String, for key: KeychainKey) {
+        var addQuery = query(for: key)
+        addQuery[kSecValueData as String] = Data(value.utf8)
 
         let status = SecItemAdd(addQuery as CFDictionary, nil)
 
         if status == errSecDuplicateItem {
-            updateAuthorizationCode(code)
+            update(value, for: key)
         }
     }
 
-    private func updateAuthorizationCode(_ code: String) {
+    func read(for key: KeychainKey) -> String? {
+        var readQuery = query(for: key)
+        readQuery[kSecReturnData as String] = true
+        readQuery[kSecMatchLimit as String] = kSecMatchLimitOne
+
+        var result: CFTypeRef?
+        let status = SecItemCopyMatching(readQuery as CFDictionary, &result)
+
+        guard status == errSecSuccess, let data = result as? Data else {
+            return nil
+        }
+        return String(decoding: data, as: UTF8.self)
+    }
+
+    private func update(_ value: String, for key: KeychainKey) {
         let newValue: [String: Any] = [
-            kSecValueData as String: Data(code.utf8)
+            kSecValueData as String: Data(value.utf8)
         ]
 
         SecItemUpdate(
-            query as CFDictionary,
+            query(for: key) as CFDictionary,
             newValue as CFDictionary
         )
     }

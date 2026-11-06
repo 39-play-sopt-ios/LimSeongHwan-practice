@@ -57,7 +57,7 @@ struct PostListView: View {
         errorMessage = ""
 
         do {
-            let response = try await PostService.shared.getPostList()
+            let response = try await PostListService.shared.getPostList()
             posts = response.posts
         } catch {
             errorMessage = error.localizedDescription

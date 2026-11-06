@@ -102,7 +102,8 @@ struct PostSignUpView: View {
                 throw NetworkError.responseError
             }
             authorizationCode = code
-            KeychainManager.shared.saveAuthorizationCode(code)
+            KeychainManager.shared.save(code, for: .authorizationCode)
+            KeychainManager.shared.save(name, for: .nickname)
         } catch is CancellationError {
             // 취소 에렁
         } catch {
