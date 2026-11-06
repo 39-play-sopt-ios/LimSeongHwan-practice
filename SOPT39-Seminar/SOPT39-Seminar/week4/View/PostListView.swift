@@ -46,6 +46,7 @@ struct PostListView: View {
         .task {
             await fetchPostList()
         }
+        .navigationBarBackButtonHidden()
     }
 
     private func fetchPostList() async {

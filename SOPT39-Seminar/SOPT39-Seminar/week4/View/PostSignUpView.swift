@@ -47,7 +47,8 @@ struct PostSignUpView: View {
             .disabled(isLoading)
             .padding(.top, 8)
             
-            Button {
+            NavigationLink {
+                PostListView()
             } label: {
                 Text("게시글 이동")
                     .typography(.sb14)
@@ -114,5 +115,7 @@ struct PostSignUpView: View {
 }
 
 #Preview {
-    PostSignUpView()
+    NavigationStack {
+        PostSignUpView()
+    }
 }
