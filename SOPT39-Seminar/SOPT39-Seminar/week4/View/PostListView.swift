@@ -10,7 +10,6 @@ import SwiftUI
 struct PostListView: View {
     @State private var keyword = ""
     @State private var posts: [PostDTO] = []
-    @State private var errorMessage = ""
     @State private var isPostSheetPresented = false
     @State private var newTitle = ""
     @State private var newContent = ""
@@ -21,13 +20,6 @@ struct PostListView: View {
             NetworkSearchTextField(text: $keyword)
                 .padding(.horizontal, 16)
                 .padding(.vertical, 12)
-
-            if !errorMessage.isEmpty {
-                Text(errorMessage)
-                    .typography(.m14)
-                    .foregroundStyle(Color(.networkRed))
-                    .padding(.bottom, 12)
-            }
 
             postList
         }
@@ -57,21 +49,17 @@ struct PostListView: View {
     }
 
     private func fetchPostList() async {
-        errorMessage = ""
-
         do {
             let response = try await PostListService.shared.getPostList()
             posts = response.posts
         } catch {
-            errorMessage = error.localizedDescription
+            print("게시글 목록 조회 실패:", error.localizedDescription)
         }
     }
 
     private func createPost() async {
-        errorMessage = ""
-
         guard let author = KeychainManager.shared.read(for: .nickname), !author.isEmpty else {
-            errorMessage = "닉네임이 없어요. 인증 코드를 먼저 발급해주세요."
+            print("게시글 생성 실패: 저장된 닉네임이 없어요.")
             isPostSheetPresented = false
             return
         }
@@ -89,8 +77,22 @@ struct PostListView: View {
 
             await fetchPostList()
         } catch {
-            errorMessage = error.localizedDescription
+            print("게시글 생성 실패:", error.localizedDescription)
             isPostSheetPresented = false
+        }
+    }
+
+    private func deletePost() async {
+        guard let post = selectedPost else { return }
+
+        do {
+            try await PostDeleteService.shared.deletePost(postId: post.id)
+            selectedPost = nil
+
+            await fetchPostList()
+        } catch {
+            print("게시글 삭제 실패:", error.localizedDescription)
+            selectedPost = nil
         }
     }
 
@@ -122,7 +124,11 @@ struct PostListView: View {
 
             NetworkPostModal(
                 onCancel: { selectedPost = nil },
-                onDelete: {}
+                onDelete: {
+                    Task {
+                        await deletePost()
+                    }
+                }
             )
         }
     }
